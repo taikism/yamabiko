@@ -1,0 +1,33 @@
+{
+  "_comment": "各ポッドキャストのRSS。id は英数字とハイフンのみ。rss が空の項目はスキップされます。Apple PodcastsのRSSは castfeedvalidator.com や podnews.net で確認して貼れます。",
+  "feeds": [
+    {
+      "id": "aee",
+      "name": "All Ears English",
+      "category": "learning",
+      "rss": "https://feeds.megaphone.fm/allearsenglish",
+      "enabled": true
+    },
+    {
+      "id": "besp",
+      "name": "Business English Pod",
+      "category": "business",
+      "rss": "",
+      "enabled": false
+    },
+    {
+      "id": "hardfork",
+      "name": "Hard Fork (NYT)",
+      "category": "ai-business",
+      "rss": "",
+      "enabled": false
+    },
+    {
+      "id": "aidaily",
+      "name": "The AI Daily Brief",
+      "category": "ai-business",
+      "rss": "",
+      "enabled": false
+    }
+  ]
+}

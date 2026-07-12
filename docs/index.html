@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="theme-color" content="#0C1617" />
+<title>やまびこ — Podcast Shadowing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0C1617;         /* deep teal-ink base */
+    --panel:#132221;       /* raised panel */
+    --panel-2:#0F1C1C;     /* recessed */
+    --line:#243634;        /* hairlines */
+    --ivory:#ECE4D3;       /* primary text */
+    --muted:#8AA09A;       /* secondary text */
+    --gold:#E9B44C;        /* MODEL voice */
+    --gold-dim:#5a4c2a;
+    --cyan:#54CFC0;        /* YOUR voice */
+    --cyan-dim:#265651;
+    --rose:#E38470;        /* "couldn't catch" mark */
+    --rose-dim:#5a3830;
+    --radius:16px;
+    --tap:52px;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;background:var(--ink);color:var(--ivory);
+    font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Hiragino Kaku Gothic ProN",system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased; overscroll-behavior-y:none;}
+  body{padding-bottom:calc(78px + env(safe-area-inset-bottom));}
+  .serif{font-family:"Newsreader",Georgia,serif;}
+  h1,h2,h3{margin:0; font-weight:500;}
+  button{font-family:inherit; color:inherit; border:none; background:none; cursor:pointer;}
+  .app{max-width:640px; margin:0 auto; min-height:100vh;}
+
+  /* header */
+  header{padding:calc(env(safe-area-inset-top) + 14px) 20px 12px; display:flex; align-items:baseline; gap:10px;
+    border-bottom:1px solid var(--line);}
+  .logo{font-family:"Newsreader",serif; font-size:26px; letter-spacing:.5px;}
+  .logo .yama{color:var(--gold);}
+  .logo .biko{color:var(--cyan);}
+  header .sub{font-size:11px; color:var(--muted); letter-spacing:.14em; text-transform:uppercase;}
+
+  /* views */
+  .view{display:none; padding:18px 18px 30px; animation:fade .3s ease;}
+  .view.active{display:block;}
+  @keyframes fade{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;}}
+
+  .card{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:18px; margin-bottom:16px;}
+  .eyebrow{font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin-bottom:8px;}
+  .meta{font-size:13px; color:var(--muted);}
+
+  /* episode overview */
+  .ep-title{font-family:"Newsreader",serif; font-size:24px; line-height:1.25; margin:2px 0 6px;}
+  .listen-note{font-size:14px; color:var(--muted); line-height:1.7; margin:14px 0 4px;}
+
+  /* big round play */
+  .play-big{width:96px; height:96px; border-radius:50%; margin:16px auto; display:flex; align-items:center; justify-content:center;
+    background:radial-gradient(circle at 50% 40%, #1c2e2b, #0f1c1b); border:1.5px solid var(--gold-dim);
+    box-shadow:0 0 0 0 rgba(233,180,76,.4); transition:box-shadow .3s;}
+  .play-big.playing{box-shadow:0 0 0 10px rgba(233,180,76,.10), 0 0 40px rgba(233,180,76,.25); border-color:var(--gold);}
+  .play-big svg{width:38px; height:38px; fill:var(--gold);}
+
+  /* step tracker */
+  .steps{display:flex; gap:6px; margin:4px 0 16px;}
+  .step{flex:1; height:4px; border-radius:3px; background:var(--line);}
+  .step.done{background:var(--cyan);}
+  .step.cur{background:var(--gold);}
+  .step-label{display:flex; align-items:center; gap:8px; margin:2px 0 14px;}
+  .step-num{font-family:"Newsreader",serif; font-size:15px; color:var(--gold); background:var(--gold-dim); width:26px;height:26px;
+    border-radius:50%; display:flex; align-items:center; justify-content:center; flex:0 0 auto;}
+  .step-txt{font-size:14px; color:var(--ivory);}
+  .step-sub{font-size:12px; color:var(--muted); margin-top:2px;}
+
+  /* sentence progress */
+  .prog{display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;}
+  .prog .idx{font-family:"Newsreader",serif; font-size:15px; color:var(--muted);}
+  .prog .idx b{color:var(--ivory); font-size:20px;}
+
+  /* trace visualizer */
+  .traces{background:var(--panel-2); border:1px solid var(--line); border-radius:12px; padding:12px; margin:12px 0;}
+  .trace-row{display:flex; align-items:center; gap:10px; margin:6px 0;}
+  .trace-tag{width:52px; font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); flex:0 0 auto;}
+  .trace-tag.model{color:var(--gold);}
+  .trace-tag.you{color:var(--cyan);}
+  canvas.wave{flex:1; height:34px; display:block; border-radius:6px;}
+
+  /* sentence text reveal */
+  .sentence{font-family:"Newsreader",serif; font-size:23px; line-height:1.4; margin:4px 0 4px; letter-spacing:.2px;}
+  .sentence .w{padding:0 1px; border-radius:4px; transition:background .15s;}
+  .sentence .w.mk{background:var(--rose-dim); color:#ffd9cf; box-shadow:inset 0 -2px 0 var(--rose);}
+  .jp{font-size:15px; color:var(--muted); line-height:1.7; margin-top:8px;}
+  .hidden-txt{color:var(--line); user-select:none; filter:blur(6px); pointer-events:none;}
+
+  /* controls grid */
+  .row{display:flex; gap:10px; flex-wrap:wrap; margin:10px 0;}
+  .btn{min-height:var(--tap); padding:0 16px; border-radius:12px; background:var(--panel-2); border:1px solid var(--line);
+    font-size:14px; display:flex; align-items:center; justify-content:center; gap:8px; flex:1 1 auto; font-weight:500;}
+  .btn:active{transform:scale(.97);}
+  .btn.gold{border-color:var(--gold-dim); color:var(--gold);}
+  .btn.gold.on{background:var(--gold-dim);}
+  .btn.cyan{border-color:var(--cyan-dim); color:var(--cyan);}
+  .btn.cyan.on{background:var(--cyan-dim);}
+  .btn.rose{border-color:var(--rose-dim); color:var(--rose);}
+  .btn.rose.on{background:var(--rose-dim); color:#ffd9cf;}
+  .btn.ghost{color:var(--muted);}
+  .btn.solid{background:var(--gold); color:#221a08; border-color:var(--gold); font-weight:600;}
+  .btn svg{width:18px;height:18px;}
+  .btn.wide{flex-basis:100%;}
+  .seg{display:flex; border:1px solid var(--line); border-radius:12px; overflow:hidden;}
+  .seg button{flex:1; min-height:44px; font-size:13px; color:var(--muted); background:var(--panel-2);}
+  .seg button.on{background:var(--gold-dim); color:var(--gold);}
+
+  .nav-sent{display:flex; gap:10px; margin-top:14px;}
+  .nav-sent .btn{flex:1;}
+
+  /* eval panel */
+  .eval{margin-top:12px; border-top:1px solid var(--line); padding-top:14px;}
+  .score-wrap{display:flex; align-items:center; gap:16px;}
+  .score{font-family:"Newsreader",serif; font-size:52px; line-height:1; color:var(--cyan);}
+  .score small{font-size:16px; color:var(--muted);}
+  .score-bars{flex:1;}
+  .sbar{margin:5px 0;}
+  .sbar .lab{display:flex; justify-content:space-between; font-size:11px; color:var(--muted); margin-bottom:3px;}
+  .sbar .track{height:6px; background:var(--line); border-radius:4px; overflow:hidden;}
+  .sbar .fill{height:100%; background:var(--cyan); border-radius:4px;}
+  .eval-note{font-size:13px; color:var(--ivory); line-height:1.7; margin-top:12px;}
+  .chips{display:flex; flex-wrap:wrap; gap:6px; margin-top:10px;}
+  .chip{font-size:12px; padding:5px 10px; border-radius:20px; background:var(--panel-2); border:1px solid var(--line); color:var(--muted);}
+  .chip.warn{border-color:var(--rose-dim); color:var(--rose);}
+
+  /* review */
+  .rev-item{display:flex; align-items:center; gap:10px; padding:12px 0; border-bottom:1px solid var(--line);}
+  .rev-item:last-child{border-bottom:none;}
+  .rev-en{font-family:"Newsreader",serif; font-size:16px; flex:1; line-height:1.35;}
+  .rev-jp{font-size:12px; color:var(--muted); margin-top:2px;}
+  .rev-play{width:38px;height:38px;flex:0 0 auto;border-radius:50%;border:1px solid var(--gold-dim);display:flex;align-items:center;justify-content:center;}
+  .rev-play svg{width:16px;height:16px;fill:var(--gold);}
+  .word-chips{display:flex; flex-wrap:wrap; gap:8px;}
+  .word-chip{padding:8px 12px; border-radius:10px; background:var(--panel-2); border:1px solid var(--rose-dim); color:#ffd9cf; font-size:14px;}
+  .word-chip .x{color:var(--muted); margin-left:8px;}
+  .empty{color:var(--muted); font-size:14px; text-align:center; padding:24px 0; line-height:1.7;}
+
+  /* settings */
+  label.fld{display:block; font-size:13px; color:var(--muted); margin:14px 0 6px;}
+  input[type=text],input[type=password],select{width:100%; min-height:var(--tap); background:var(--panel-2); border:1px solid var(--line);
+    border-radius:12px; color:var(--ivory); padding:0 14px; font-size:15px; font-family:inherit;}
+  .hint{font-size:12px; color:var(--muted); line-height:1.6; margin-top:8px;}
+  a{color:var(--cyan);}
+  .pill{display:inline-block; font-size:11px; padding:3px 9px; border-radius:20px; background:var(--gold-dim); color:var(--gold); letter-spacing:.05em;}
+
+  /* idiom chips (practice) */
+  .idioms{margin-top:12px;}
+  .idiom-label{font-size:11px; color:var(--muted); margin-bottom:8px; letter-spacing:.04em;}
+  .idiom-chip{display:inline-block; margin:0 6px 6px 0; padding:7px 12px; border-radius:20px;
+    background:var(--panel-2); border:1px solid var(--line); color:var(--muted); font-size:13px;}
+  .idiom-chip.on{border-color:var(--cyan-dim); color:var(--cyan); background:var(--cyan-dim);}
+
+  /* wordbook */
+  .wb-card{background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:14px; margin-bottom:12px;}
+  .wb-head{display:flex; align-items:center; gap:8px; flex-wrap:wrap;}
+  .wb-term{font-family:"Newsreader",serif; font-size:21px; color:var(--ivory);}
+  .wb-pos{font-size:11px; color:var(--gold); border:1px solid var(--gold-dim); border-radius:6px; padding:2px 7px;}
+  .wb-type{font-size:10px; color:var(--muted); letter-spacing:.08em;}
+  .wb-actions{margin-left:auto; display:flex; gap:6px;}
+  .wb-ico{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;background:var(--panel-2);}
+  .wb-ico svg{width:15px;height:15px;}
+  .wb-gloss{font-size:15px; color:var(--ivory); margin:10px 0 8px; line-height:1.6;}
+  .wb-gloss.empty{color:var(--muted); font-style:italic; font-size:13px;}
+  .wb-ctx{font-size:13px; color:var(--muted); line-height:1.65; border-left:2px solid var(--line); padding-left:10px;}
+  .wb-ctx b{color:var(--cyan); font-weight:500;}
+
+  /* bottom nav */
+  nav{position:fixed; bottom:0; left:0; right:0; z-index:20; background:rgba(12,22,23,.92);
+    backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border-top:1px solid var(--line);
+    display:flex; padding-bottom:env(safe-area-inset-bottom);}
+  nav button{flex:1; min-height:64px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; color:var(--muted); font-size:10.5px;}
+  nav button svg{width:22px;height:22px; stroke:currentColor; fill:none; stroke-width:1.7;}
+  nav button.on{color:var(--gold);}
+  .toast{position:fixed; left:50%; bottom:calc(84px + env(safe-area-inset-bottom)); transform:translateX(-50%);
+    background:#000; border:1px solid var(--line); color:var(--ivory); padding:10px 16px; border-radius:12px; font-size:13px;
+    opacity:0; pointer-events:none; transition:opacity .25s; z-index:50; max-width:88%;}
+  .toast.show{opacity:1;}
+  .spin{width:16px;height:16px;border:2px solid var(--cyan-dim); border-top-color:var(--cyan); border-radius:50%; animation:sp .7s linear infinite; display:inline-block;}
+  @keyframes sp{to{transform:rotate(360deg);}}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important;}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="logo serif"><span class="yama">やま</span><span class="biko">びこ</span></div>
+    <div class="sub">Podcast Shadowing</div>
+  </header>
+
+  <!-- ===== 通し聴き ===== -->
+  <section id="v-overview" class="view active">
+    <div class="card">
+      <div class="eyebrow">Now studying · サンプル</div>
+      <div class="ep-title serif" id="ov-title">—</div>
+      <div class="meta" id="ov-meta">—</div>
+      <div class="play-big" id="ov-play" role="button" aria-label="通しで再生">
+        <svg viewBox="0 0 24 24" id="ov-icon"><path d="M8 5v14l11-7z"/></svg>
+      </div>
+      <p class="listen-note">まずは<b>字幕なしで通しで聴いて</b>、大まかな意味と話の流れをつかみます。細部が分からなくても大丈夫。全体の輪郭を掴めたら練習へ。</p>
+      <div class="row"><button class="btn solid wide" onclick="go('practice')">大意をつかめた → センテンス練習へ</button></div>
+    </div>
+    <div class="card">
+      <div class="eyebrow">学習の流れ</div>
+      <div class="meta" style="line-height:1.9">
+        ① 通し聴き（字幕なし）<br>
+        ② センテンスごとに数回聴き、聞き取れない所をマーク<br>
+        ③ 字幕＋対訳で答え合わせ<br>
+        ④ リピート／シャドー／オーバーラップ<br>
+        ⑤ 録音してAI採点（リエゾン・発音を厳しめに）<br>
+        → 次の文へ。苦手は復習タブに蓄積されます。
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 練習 ===== -->
+  <section id="v-practice" class="view">
+    <div class="card">
+      <div class="prog">
+        <div class="idx serif">文 <b id="p-idx">1</b> / <span id="p-total">7</span></div>
+        <button class="btn rose" id="p-mark" style="flex:0 0 auto; padding:0 14px; min-height:40px" onclick="toggleUnclear()">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 3h13l-2 4 2 4H6v10H4z"/></svg> 聞き取れない
+        </button>
+      </div>
+      <div class="steps" id="p-steps"></div>
+      <div class="step-label">
+        <div class="step-num serif" id="p-stepnum">1</div>
+        <div><div class="step-txt" id="p-steptxt">区間を聴く</div><div class="step-sub" id="p-stepsub">字幕なしで、この文だけを聴く</div></div>
+      </div>
+
+      <div class="traces">
+        <div class="trace-row"><div class="trace-tag model">Model</div><canvas class="wave" id="wave-model"></canvas></div>
+        <div class="trace-row"><div class="trace-tag you">You</div><canvas class="wave" id="wave-you"></canvas></div>
+      </div>
+
+      <div class="sentence serif" id="p-en"><span class="hidden-txt">聞き取れましたか？ 字幕を表示して確認しましょう。</span></div>
+      <div class="jp" id="p-jp" style="display:none"></div>
+      <div class="idioms" id="p-idioms"></div>
+
+      <div class="row">
+        <button class="btn gold" id="p-listen" onclick="playModel()"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> 聴く</button>
+        <button class="btn gold" id="p-loop" onclick="toggleLoop()"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 7h10v3l4-4-4-4v3H5v6h2zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2z"/></svg> ループ</button>
+      </div>
+      <div class="seg" id="p-speed">
+        <button data-r="0.6">0.6×</button><button data-r="0.75">0.75×</button>
+        <button data-r="0.9" class="on">0.9×</button><button data-r="1">1.0×</button>
+      </div>
+
+      <div class="row" style="margin-top:14px">
+        <button class="btn" id="t-en" onclick="reveal('en')">英語字幕</button>
+        <button class="btn" id="t-jp" onclick="reveal('jp')">日本語対訳</button>
+      </div>
+
+      <div class="row">
+        <button class="btn gold" onclick="playModel()"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> シャドー（後追い）</button>
+        <button class="btn gold" onclick="overlap()"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M2 12h4l3 8 6-16 3 8h4"/></svg> オーバーラップ</button>
+      </div>
+
+      <div class="row">
+        <button class="btn cyan" id="p-rec" onclick="toggleRec()"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="7"/></svg> 録音する</button>
+        <button class="btn cyan" id="p-playme" onclick="playMine()" disabled style="opacity:.4"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> 自分の声</button>
+      </div>
+      <div class="row"><button class="btn solid wide" id="p-eval" onclick="evaluate()" disabled style="opacity:.4">録音をAIで採点する</button></div>
+
+      <div class="eval" id="p-evalout" style="display:none"></div>
+
+      <div class="nav-sent">
+        <button class="btn ghost" onclick="moveSent(-1)">‹ 前の文</button>
+        <button class="btn solid" onclick="moveSent(1)">次の文 ›</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 復習 ===== -->
+  <section id="v-review" class="view">
+    <div class="card">
+      <div class="eyebrow">聞き取れなかった文</div>
+      <div id="rev-sentences"></div>
+    </div>
+    <div class="card">
+      <div class="eyebrow">苦手フレーズの傾向</div>
+      <p class="hint" style="margin-top:0">マークした文・単語から、聞き取りにくさの原因（連結・脱落・弱形など）を分析し、似た音の練習フレーズを生成します。</p>
+      <button class="btn solid wide" onclick="analyzeWeak()">傾向を分析して類似フレーズを作る</button>
+      <div id="weak-out" style="margin-top:14px"></div>
+    </div>
+  </section>
+
+  <!-- ===== 単語帳 ===== -->
+  <section id="v-wordbook" class="view">
+    <div class="card">
+      <div class="eyebrow">単語帳 <span class="pill" id="wb-count">0</span></div>
+      <p class="hint" style="margin-top:0">練習中にタップした単語・イディオムが「その文での意味」つきで並びます。意味はGeminiが文脈に即して判定します。</p>
+      <button class="btn solid wide" onclick="glossWords()">意味をまとめて取得（Gemini）</button>
+    </div>
+    <div id="wb-list"></div>
+  </section>
+
+  <!-- ===== 設定 ===== -->
+  <section id="v-settings" class="view">
+    <div class="card">
+      <div class="eyebrow">Gemini API <span class="pill">無料枠でOK</span></div>
+      <label class="fld">APIキー（Google AI Studioで無料発行）</label>
+      <input type="password" id="s-key" placeholder="AIza..." />
+      <label class="fld">モデル</label>
+      <select id="s-model">
+        <option value="gemini-2.5-flash">gemini-2.5-flash（推奨）</option>
+        <option value="gemini-2.5-flash-lite">gemini-2.5-flash-lite（軽量・高頻度向き）</option>
+      </select>
+      <button class="btn solid wide" style="margin-top:14px" onclick="saveSettings()">保存</button>
+      <p class="hint">キーは端末内（localStorage）にのみ保存され、採点・分析時のみGoogleへ送られます。個人利用向けの簡易構成です。取得は <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a> から。</p>
+    </div>
+    <div class="card">
+      <div class="eyebrow">音源モード</div>
+      <div class="seg" id="s-src">
+        <button data-m="tts" class="on">デモ（音声合成）</button>
+        <button data-m="url">実音源URL</button>
+      </div>
+      <p class="hint">現在は v0.1 デモ。実際のポッドキャスト音声は、次段の <b>GitHub Actions パイプライン</b>（RSS→Whisperで文字起こし＋タイムスタンプ→Geminiで対訳）が出力するJSONを読み込む形で差し込みます。デモでは端末の音声合成で全機能を試せます。</p>
+    </div>
+    <div class="card">
+      <div class="eyebrow">このプロトタイプについて</div>
+      <p class="hint" style="margin-top:0">サンプル1エピソード同梱。録音はMediaRecorderで取得しWAV化してGeminiへ送信。採点はキー未設定時はサンプル表示になります。復習データは端末内に保存されます。</p>
+    </div>
+  </section>
+</div>
+
+<nav>
+  <button data-v="overview" class="on" onclick="go('overview')"><svg viewBox="0 0 24 24"><path d="M3 12h4l3 8 4-16 3 8h4"/></svg>通し聴き</button>
+  <button data-v="practice" onclick="go('practice')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M10 9l5 3-5 3z" fill="currentColor" stroke="none"/></svg>練習</button>
+  <button data-v="wordbook" onclick="go('wordbook')"><svg viewBox="0 0 24 24"><path d="M5 4h11a2 2 0 0 1 2 2v14H7a2 2 0 0 0-2 2z"/><path d="M18 20V6"/></svg>単語帳</button>
+  <button data-v="review" onclick="go('review')"><svg viewBox="0 0 24 24"><path d="M4 5h16M4 12h16M4 19h10"/></svg>復習</button>
+  <button data-v="settings" onclick="go('settings')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M6 6l2 2M16 16l2 2M18 6l-2 2M8 16l-2 2"/></svg>設定</button>
+</nav>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============ サンプルエピソード（AIビジネス寄り／オリジナル文） ============ */
+const EPISODE = {
+  id: "sample-aee-ai",
+  show: "All Ears English（サンプル）",
+  title: "The Ultimate Side Hustle: Talking About AI",
+  audioUrl: null, // 実音源モード時にMP3のURLを入れる
+  sentences: [
+    { en:"So, did you catch what Mark Cuban said the other day?",
+      ja:"ねえ、この前マーク・キューバンが言ってたこと聞いた？",
+      idioms:["did you catch","the other day"] },
+    { en:"He said if he could start over, he'd go straight into AI.",
+      ja:"もし人生をやり直せるなら、迷わずAIの世界に飛び込むって言ってたよ。",
+      idioms:["start over","go straight into"] },
+    { en:"Oh really? I hadn't heard that. Did he say why?",
+      ja:"へえ、そうなんだ。知らなかった。理由は言ってた？",
+      idioms:["hadn't heard"] },
+    { en:"Apparently you don't even need a degree to get started.",
+      ja:"どうやら、始めるのに学位すらいらないらしいよ。",
+      idioms:["don't even need","get started"] },
+    { en:"That's kind of wild. So it's something you could pick up on the side?",
+      ja:"それはちょっとすごいね。じゃあ副業みたいに始められるってこと？",
+      idioms:["kind of","pick up","on the side"] },
+    { en:"Exactly. He framed it as the ultimate side hustle.",
+      ja:"そういうこと。彼はそれを“究極の副業”って表現してた。",
+      idioms:["framed it as","side hustle"] },
+    { en:"I imagine the pay is pretty good too, right?",
+      ja:"収入もかなり良さそうだよね？",
+      idioms:["I imagine","pretty good"] },
+  ]
+};
+
+const STEPS = [
+  { t:"区間を聴く", s:"字幕なしで、この文だけを聴く" },
+  { t:"数回聴いて聞き取る", s:"聞き取れない所は「聞き取れない」でマーク" },
+  { t:"字幕＋対訳で確認", s:"答え合わせ。難しい単語をタップでマーク" },
+  { t:"リピート／シャドー", s:"後追い・オーバーラップで口を慣らす" },
+  { t:"録音して採点", s:"自分の声を録ってAIに厳しめ採点" },
+];
+
+/* ============ 状態 ============ */
+const store = (()=>{ // localStorage フォールバック付き
+  let mem={}; let ok=true;
+  try{ localStorage.setItem("__t","1"); localStorage.removeItem("__t"); }catch(e){ ok=false; }
+  return {
+    get:k=>{ try{ return ok?localStorage.getItem(k):mem[k]; }catch(e){ return mem[k]; } },
+    set:(k,v)=>{ try{ ok?localStorage.setItem(k,v):mem[k]=v; }catch(e){ mem[k]=v; } }
+  };
+})();
+
+let S = {
+  i: 0,            // 現在の文
+  step: 0,         // 現在のステップ
+  loop: false,
+  rate: 0.9,
+  srcMode: store.get("ym.src") || "tts",
+  apikey: store.get("ym.key") || "",
+  model: store.get("ym.model") || "gemini-2.5-flash",
+  unclear: JSON.parse(store.get("ym.unclear")||"[]"),   // マークした文index
+  words: JSON.parse(store.get("ym.words")||"[]"),       // 苦手単語
+  scores: JSON.parse(store.get("ym.scores")||"{}"),     // index->score
+  myRec: {},       // index -> {url, blob}
+};
+// 旧形式(文字列配列) -> 新形式({term,type,ep,en,ja,gloss,pos})へ移行
+S.words = (S.words||[]).map(w => typeof w==="string"
+  ? {term:w, type:"word", ep:EPISODE.id, en:"", ja:"", gloss:"", pos:""} : w);
+
+/* ============ 汎用 ============ */
+const $ = s=>document.querySelector(s);
+const $$ = s=>document.querySelectorAll(s);
+function toast(msg){ const t=$("#toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove("show"),2200); }
+function persist(){ store.set("ym.unclear",JSON.stringify(S.unclear)); store.set("ym.words",JSON.stringify(S.words)); store.set("ym.scores",JSON.stringify(S.scores)); }
+
+function go(v){
+  $$(".view").forEach(x=>x.classList.remove("active"));
+  $("#v-"+v).classList.add("active");
+  $$("nav button").forEach(b=>b.classList.toggle("on", b.dataset.v===v));
+  if(v==="review") renderReview();
+  if(v==="wordbook") renderWordbook();
+  window.scrollTo(0,0);
+}
+
+/* ============ 通し聴き ============ */
+let ovPlaying=false;
+$("#ov-title").textContent = EPISODE.title;
+$("#ov-meta").textContent = EPISODE.show + " · " + EPISODE.sentences.length + " sentences";
+$("#ov-play").addEventListener("click", ()=>{
+  if(ovPlaying){ stopAll(); ovPlaying=false; setOvIcon(false); return; }
+  ovPlaying=true; setOvIcon(true);
+  speakSequence(EPISODE.sentences.map(s=>s.en), ()=>{ ovPlaying=false; setOvIcon(false); });
+});
+function setOvIcon(on){
+  $("#ov-play").classList.toggle("playing", on);
+  $("#ov-icon").innerHTML = on ? '<path d="M6 5h4v14H6zM14 5h4v14h-4z"/>' : '<path d="M8 5v14l11-7z"/>';
+}
+
+/* ============ 音声合成（デモ） ============ */
+let voices=[];
+function loadVoices(){ voices = speechSynthesis.getVoices().filter(v=>/en(-|_)?US|en_US|English/i.test(v.lang+v.name)); }
+if('speechSynthesis' in window){ loadVoices(); speechSynthesis.onvoiceschanged=loadVoices; }
+function pickVoice(){ return voices.find(v=>v.lang==="en-US") || voices[0] || null; }
+
+function speak(text, rate, onend){
+  if(!('speechSynthesis' in window)){ toast("この端末は音声合成に未対応です"); onend&&onend(); return; }
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.rate = rate; u.lang="en-US"; const v=pickVoice(); if(v)u.voice=v;
+  u.onend = ()=>{ onend&&onend(); };
+  speechSynthesis.speak(u);
+}
+function speakSequence(arr, done){
+  let k=0;
+  (function next(){ if(k>=arr.length){ done&&done(); return; } speak(arr[k++], 0.95, next); })();
+}
+function stopAll(){ if('speechSynthesis' in window) speechSynthesis.cancel(); const a=$("#realaudio"); if(a){a.pause();} setModelPlaying(false); }
+
+/* 実音源モード用（将来）：<audio>を区間再生 */
+let realAudio=null;
+function playModelReal(){
+  const s=EPISODE.sentences[S.i];
+  if(!EPISODE.audioUrl || s.start==null){ toast("実音源URL/タイムスタンプ未設定"); return; }
+  if(!realAudio){ realAudio=new Audio(EPISODE.audioUrl); realAudio.id="realaudio"; realAudio.preload="auto"; }
+  realAudio.currentTime=s.start; realAudio.playbackRate=S.rate; realAudio.play();
+  const stopAt=()=>{ if(realAudio.currentTime>=s.end){ realAudio.pause(); if(S.loop){realAudio.currentTime=s.start; realAudio.play();} else setModelPlaying(false); } };
+  realAudio.ontimeupdate=stopAt;
+}
+
+/* ============ 練習：モデル再生 ============ */
+function setModelPlaying(on){ /* ゴールドの脈動を波形に反映 */ animateWave(on); }
+function playModel(){
+  advanceStep(0); // 聴いたらstep0達成
+  setModelPlaying(true);
+  const en = EPISODE.sentences[S.i].en;
+  if(S.srcMode==="url"){ playModelReal(); return; }
+  speak(en, S.rate, ()=>{
+    if(S.loop){ playModel(); } else { setModelPlaying(false); }
+  });
+}
+function toggleLoop(){ S.loop=!S.loop; $("#p-loop").classList.toggle("on",S.loop); toast(S.loop?"ループ ON":"ループ OFF"); }
+function overlap(){ advanceStep(3); toast("オーバーラップ：モデルと同時に声を重ねて"); playModel(); }
+
+$("#p-speed").addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b)return;
+  $$("#p-speed button").forEach(x=>x.classList.remove("on")); b.classList.add("on"); S.rate=parseFloat(b.dataset.r); });
+
+/* ============ 字幕の表示 ============ */
+let shown={en:false,jp:false};
+function reveal(which){
+  const s=EPISODE.sentences[S.i];
+  if(which==="en"){
+    shown.en=!shown.en; $("#t-en").classList.toggle("on",shown.en);
+    renderEnglish(); advanceStep(2);
+  } else {
+    shown.jp=!shown.jp; $("#t-jp").classList.toggle("on",shown.jp);
+    $("#p-jp").style.display = shown.jp?"block":"none"; $("#p-jp").textContent=s.ja;
+    advanceStep(2);
+  }
+}
+function renderEnglish(){
+  const el=$("#p-en"); const s=EPISODE.sentences[S.i];
+  if(!shown.en){ el.innerHTML='<span class="hidden-txt">聞き取れましたか？ 字幕を表示して確認しましょう。</span>'; return; }
+  // 単語ごとにタップでマーク可能に（この文で登録済みの語をハイライト）
+  const marked = new Set(S.words.filter(w=>w.en===s.en).map(w=>w.term.toLowerCase()));
+  el.innerHTML = s.en.split(/(\s+)/).map(tok=>{
+    if(/^\s+$/.test(tok)) return tok;
+    const clean = tok.toLowerCase().replace(/[^a-z']/g,"");
+    const cls = marked.has(clean)?"w mk":"w";
+    return `<span class="${cls}" data-w="${clean}">${tok}</span>`;
+  }).join("");
+  el.querySelectorAll(".w").forEach(sp=>sp.addEventListener("click",()=>toggleWord(sp.dataset.w, sp)));
+  renderIdioms();
+}
+function findWord(term, en){
+  return S.words.findIndex(x=>x.term.toLowerCase()===term.toLowerCase() && x.en===en);
+}
+function toggleWord(w, sp){
+  if(!w) return;
+  const s=EPISODE.sentences[S.i];
+  const idx=findWord(w, s.en);
+  if(idx>=0){ S.words.splice(idx,1); sp&&sp.classList.remove("mk"); }
+  else { S.words.push({term:w, type:"word", ep:EPISODE.id, en:s.en, ja:s.ja, gloss:"", pos:""});
+    sp&&sp.classList.add("mk"); toast(`「${w}」を単語帳に追加`); }
+  persist();
+}
+/* イディオム / 連結フレーズ */
+function renderIdioms(){
+  const c=$("#p-idioms"); if(!c) return;
+  const s=EPISODE.sentences[S.i]; const list=s.idioms||[];
+  if(!list.length || !shown.en){ c.innerHTML=""; return; }
+  c.innerHTML='<div class="idiom-label">イディオム・連結フレーズ（タップで単語帳へ）</div>'+
+    list.map(p=>{ const on=findWord(p,s.en)>=0; return `<span class="idiom-chip${on?' on':''}" data-p="${escapeHtml(p)}">${escapeHtml(p)}</span>`; }).join("");
+  c.querySelectorAll(".idiom-chip").forEach(ch=>ch.addEventListener("click",()=>toggleIdiom(ch.dataset.p, ch)));
+}
+function toggleIdiom(p, ch){
+  const s=EPISODE.sentences[S.i]; const idx=findWord(p,s.en);
+  if(idx>=0){ S.words.splice(idx,1); ch.classList.remove("on"); }
+  else{ S.words.push({term:p, type:"idiom", ep:EPISODE.id, en:s.en, ja:s.ja, gloss:"", pos:""});
+    ch.classList.add("on"); toast(`「${p}」を単語帳に追加`); }
+  persist();
+}
+
+/* ============ 聞き取れないマーク ============ */
+function toggleUnclear(){
+  const i=S.i; const at=S.unclear.indexOf(i);
+  if(at>=0){ S.unclear.splice(at,1); $("#p-mark").classList.remove("on"); }
+  else { S.unclear.push(i); $("#p-mark").classList.add("on"); advanceStep(1); toast("復習リストに追加しました"); }
+  persist();
+}
+
+/* ============ ステップ管理 ============ */
+let stepDone = new Set();
+function advanceStep(reached){
+  stepDone.add(reached);
+  // 現在ステップ = 未達成の最小、なければ最後
+  let cur=0; for(let k=0;k<STEPS.length;k++){ if(!stepDone.has(k)){ cur=k; break; } cur=k; }
+  S.step=cur; renderSteps();
+}
+function renderSteps(){
+  const wrap=$("#p-steps"); wrap.innerHTML="";
+  STEPS.forEach((st,k)=>{ const d=document.createElement("div");
+    d.className="step"+(stepDone.has(k)?" done":"")+(k===S.step&&!stepDone.has(k)?" cur":"");
+    wrap.appendChild(d); });
+  $("#p-stepnum").textContent=(S.step+1);
+  $("#p-steptxt").textContent=STEPS[S.step].t;
+  $("#p-stepsub").textContent=STEPS[S.step].s;
+}
+
+/* ============ 文の移動 ============ */
+function loadSent(){
+  const s=EPISODE.sentences[S.i];
+  $("#p-idx").textContent=S.i+1; $("#p-total").textContent=EPISODE.sentences.length;
+  shown={en:false,jp:false}; stepDone=new Set(); S.step=0;
+  $("#t-en").classList.remove("on"); $("#t-jp").classList.remove("on");
+  $("#p-jp").style.display="none"; renderEnglish(); renderSteps();
+  $("#p-mark").classList.toggle("on", S.unclear.includes(S.i));
+  $("#p-loop").classList.toggle("on", S.loop);
+  $("#p-evalout").style.display="none"; $("#p-evalout").innerHTML="";
+  const rec=S.myRec[S.i]; const pm=$("#p-playme"); const ev=$("#p-eval");
+  pm.disabled=!rec; pm.style.opacity=rec?1:.4; ev.disabled=!rec; ev.style.opacity=rec?1:.4;
+  drawWave($("#wave-model"), seedWave(s.en), getCSS("--gold"));
+  drawWave($("#wave-you"), rec?rec.wave:[], getCSS("--cyan"));
+}
+function moveSent(d){
+  stopAll(); stopRec(true);
+  S.i=(S.i+d+EPISODE.sentences.length)%EPISODE.sentences.length;
+  loadSent();
+}
+
+/* ============ 波形描画 ============ */
+function getCSS(v){ return getComputedStyle(document.documentElement).getPropertyValue(v).trim(); }
+function seedWave(str){ // 文からそれっぽい波形（決定的）
+  let seed=0; for(const c of str) seed=(seed*31+c.charCodeAt(0))>>>0;
+  const rnd=()=>{ seed=(seed*1103515245+12345)>>>0; return (seed/4294967296); };
+  const n=Math.min(60, Math.max(24, str.replace(/\s/g,"").length));
+  return Array.from({length:n},()=>0.15+rnd()*0.85);
+}
+function drawWave(cv, data, color){
+  const dpr=window.devicePixelRatio||1; const w=cv.clientWidth||280, h=cv.clientHeight||34;
+  cv.width=w*dpr; cv.height=h*dpr; const ctx=cv.getContext("2d"); ctx.scale(dpr,dpr);
+  ctx.clearRect(0,0,w,h);
+  if(!data||!data.length){ ctx.fillStyle=getCSS("--line"); ctx.fillRect(0,h/2-0.5,w,1); return; }
+  const bw=w/data.length; ctx.fillStyle=color;
+  data.forEach((v,k)=>{ const bh=Math.max(2,v*(h-4)); ctx.globalAlpha=0.85;
+    roundRect(ctx,k*bw+bw*0.2,(h-bh)/2,bw*0.6,bh,1.2); ctx.fill(); });
+  ctx.globalAlpha=1;
+}
+function roundRect(ctx,x,y,w,h,r){ ctx.beginPath(); ctx.moveTo(x+r,y);
+  ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
+let waveAnim=null;
+function animateWave(on){
+  const cv=$("#wave-model"); const s=EPISODE.sentences[S.i]; const base=seedWave(s.en);
+  if(!on){ if(waveAnim)cancelAnimationFrame(waveAnim); waveAnim=null; drawWave(cv,base,getCSS("--gold")); return; }
+  let t=0;
+  (function frame(){ t+=0.08; const d=base.map((v,k)=>0.2+Math.abs(Math.sin(t+k*0.4))*v);
+    drawWave(cv,d,getCSS("--gold")); waveAnim=requestAnimationFrame(frame); })();
+}
+
+/* ============ 録音 ============ */
+let mediaRec=null, chunks=[], recording=false, stream=null;
+async function toggleRec(){
+  if(recording){ stopRec(); return; }
+  try{
+    stream = await navigator.mediaDevices.getUserMedia({audio:true});
+  }catch(e){ toast("マイクの許可が必要です"); return; }
+  chunks=[]; const mime = MediaRecorder.isTypeSupported("audio/mp4")?"audio/mp4":(MediaRecorder.isTypeSupported("audio/webm")?"audio/webm":"");
+  mediaRec = mime? new MediaRecorder(stream,{mimeType:mime}) : new MediaRecorder(stream);
+  mediaRec.ondataavailable=e=>{ if(e.data.size>0) chunks.push(e.data); };
+  mediaRec.onstop=onRecStop;
+  mediaRec.start(); recording=true;
+  $("#p-rec").classList.add("on"); $("#p-rec").innerHTML='<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="6" width="12" height="12" rx="2"/></svg> 停止';
+  advanceStep(4);
+}
+function stopRec(silent){
+  if(recording && mediaRec){ mediaRec.stop(); }
+  recording=false;
+  $("#p-rec").classList.remove("on"); $("#p-rec").innerHTML='<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="7"/></svg> 録音する';
+  if(stream){ stream.getTracks().forEach(t=>t.stop()); stream=null; }
+}
+async function onRecStop(){
+  const blob=new Blob(chunks,{type:(mediaRec&&mediaRec.mimeType)||"audio/mp4"});
+  const url=URL.createObjectURL(blob);
+  let wave=[];
+  try{ wave = await blobToWaveform(blob); }catch(e){ wave=seedWave("me"+S.i); }
+  S.myRec[S.i]={url,blob,wave};
+  drawWave($("#wave-you"), wave, getCSS("--cyan"));
+  const pm=$("#p-playme"), ev=$("#p-eval");
+  pm.disabled=false; pm.style.opacity=1; ev.disabled=false; ev.style.opacity=1;
+  toast("録音しました。再生・採点できます");
+}
+function playMine(){ const r=S.myRec[S.i]; if(!r)return; const a=new Audio(r.url); a.play(); }
+
+/* Blob -> 波形配列（PCM振幅を間引き） */
+async function blobToWaveform(blob){
+  const buf = await blob.arrayBuffer();
+  const ac = new (window.AudioContext||window.webkitAudioContext)();
+  const audio = await ac.decodeAudioData(buf);
+  const ch = audio.getChannelData(0); const n=50; const block=Math.floor(ch.length/n);
+  const out=[]; let max=0.001;
+  for(let k=0;k<n;k++){ let sum=0; for(let j=0;j<block;j++) sum+=Math.abs(ch[k*block+j]||0); const v=sum/block; out.push(v); if(v>max)max=v; }
+  ac.close();
+  return out.map(v=>Math.min(1, v/max));
+}
+/* Blob -> WAV(base64)（Geminiに送る用） */
+async function blobToWavBase64(blob){
+  const buf=await blob.arrayBuffer();
+  const ac=new (window.AudioContext||window.webkitAudioContext)();
+  const audio=await ac.decodeAudioData(buf);
+  const wav=encodeWav(audio); ac.close();
+  return await new Promise(res=>{ const r=new FileReader(); r.onloadend=()=>res(r.result.split(",")[1]); r.readAsDataURL(new Blob([wav],{type:"audio/wav"})); });
+}
+function encodeWav(audio){
+  const numCh=1, sr=audio.sampleRate, data=audio.getChannelData(0);
+  const buffer=new ArrayBuffer(44+data.length*2); const view=new DataView(buffer);
+  const ws=(o,s)=>{ for(let i=0;i<s.length;i++)view.setUint8(o+i,s.charCodeAt(i)); };
+  ws(0,"RIFF"); view.setUint32(4,36+data.length*2,true); ws(8,"WAVE"); ws(12,"fmt ");
+  view.setUint32(16,16,true); view.setUint16(20,1,true); view.setUint16(22,numCh,true);
+  view.setUint32(24,sr,true); view.setUint32(28,sr*2,true); view.setUint16(32,2,true); view.setUint16(34,16,true);
+  ws(36,"data"); view.setUint32(40,data.length*2,true);
+  let o=44; for(let i=0;i<data.length;i++){ let s=Math.max(-1,Math.min(1,data[i])); view.setInt16(o,s<0?s*0x8000:s*0x7FFF,true); o+=2; }
+  return buffer;
+}
+
+/* ============ Gemini 呼び出し ============ */
+async function gemini(parts, jsonSchemaHint){
+  const key=S.apikey; const model=S.model;
+  const url=`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
+  const body={ contents:[{parts}], generationConfig:{responseMimeType:"application/json", temperature:0.4} };
+  const res=await fetch(url,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)});
+  if(!res.ok){ const t=await res.text(); throw new Error("Gemini "+res.status+": "+t.slice(0,200)); }
+  const data=await res.json();
+  const text=(data.candidates?.[0]?.content?.parts||[]).map(p=>p.text||"").join("");
+  return JSON.parse(text.replace(/```json|```/g,"").trim());
+}
+
+/* ============ 発音採点 ============ */
+async function evaluate(){
+  const rec=S.myRec[S.i]; if(!rec){ toast("先に録音してください"); return; }
+  const s=EPISODE.sentences[S.i];
+  const out=$("#p-evalout"); out.style.display="block";
+  if(!S.apikey){
+    renderEval(sampleEval(s), true); return;
+  }
+  out.innerHTML='<div class="score-wrap"><span class="spin"></span><span style="color:var(--muted);font-size:13px">Geminiが採点中…</span></div>';
+  try{
+    const b64=await blobToWavBase64(rec.blob);
+    const prompt=`あなたは非常に厳しい英語発音コーチです。学習者が読み上げた音声を、目標文と比較して評価してください。
+目標文: "${s.en}"
+評価観点: 連結(liaison/linking)、脱落(reduction/elision)、弱形(weak forms)、母音/子音の発音、リズム/ストレス、イントネーション。
+甘い点は付けないこと。改善点は具体的な語やつなぎ目を挙げること。
+必ず次のJSONのみを返す（前置き・マークダウン禁止）:
+{"score":0-100の整数,"transcript":"聞き取れた発話の英語","subscores":{"liaison":0-100,"pronunciation":0-100,"rhythm":0-100},"good":"良かった点(日本語1文)","issues":["具体的な問題点(日本語,語やつなぎ目を明示)",...最大4件],"advice":"次に意識すること(日本語1-2文)"}`;
+    const j=await gemini([{text:prompt},{inline_data:{mime_type:"audio/wav",data:b64}}]);
+    S.scores[S.i]=j.score; persist();
+    renderEval(j, false);
+  }catch(e){
+    out.innerHTML=`<div class="eval-note" style="color:var(--rose)">採点に失敗しました。<br>${escapeHtml(e.message)}<br><br>ブラウザからのAPI呼び出しがCORSで拒否される場合は、次段でGASプロキシ経由に切り替えます。</div>`;
+  }
+}
+function sampleEval(s){
+  return { score:72, transcript:s.en.toLowerCase(), subscores:{liaison:64,pronunciation:76,rhythm:75},
+    good:"全体のリズムは掴めています。", 
+    issues:["\"did you\" の連結 (dʒə) が弱く、二語が切れて聞こえます","語末の子音がやや強すぎます"],
+    advice:"つなぎ目を意識し、機能語をもっと弱く速く。APIキーを設定すると実際の録音で採点します。", _sample:true };
+}
+function renderEval(j, isSample){
+  const out=$("#p-evalout");
+  const sub=j.subscores||{};
+  out.innerHTML=`
+    <div class="score-wrap">
+      <div class="score serif">${j.score}<small>/100</small></div>
+      <div class="score-bars">
+        ${bar("連結",sub.liaison)}${bar("発音",sub.pronunciation)}${bar("リズム",sub.rhythm)}
+      </div>
+    </div>
+    ${j.transcript?`<div class="eval-note" style="color:var(--muted)">聞き取り: “${escapeHtml(j.transcript)}”</div>`:""}
+    <div class="eval-note">${escapeHtml(j.good||"")}</div>
+    <div class="chips">${(j.issues||[]).map(x=>`<span class="chip warn">${escapeHtml(x)}</span>`).join("")}</div>
+    <div class="eval-note">${escapeHtml(j.advice||"")}</div>
+    ${isSample?'<div class="eval-note" style="color:var(--gold)">※ サンプル表示（設定でAPIキーを入れると実採点）</div>':""}
+  `;
+}
+function bar(lab,v){ v=v||0; return `<div class="sbar"><div class="lab"><span>${lab}</span><span>${v}</span></div><div class="track"><div class="fill" style="width:${v}%"></div></div></div>`; }
+function escapeHtml(s){ return (s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+
+/* ============ 復習 ============ */
+function renderReview(){
+  const rs=$("#rev-sentences");
+  if(!S.unclear.length){ rs.innerHTML='<div class="empty">まだありません。<br>練習中に「聞き取れない」でマークすると、ここに集まります。</div>'; }
+  else{
+    rs.innerHTML=S.unclear.map(i=>{ const s=EPISODE.sentences[i]; const sc=S.scores[i];
+      return `<div class="rev-item">
+        <button class="rev-play" onclick="jumpTo(${i})"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+        <div style="flex:1"><div class="rev-en serif">${escapeHtml(s.en)}</div><div class="rev-jp">${escapeHtml(s.ja)}${sc?` · スコア ${sc}`:""}</div></div>
+      </div>`; }).join("");
+  }
+}
+function jumpTo(i){ S.i=i; loadSent(); go("practice"); }
+
+/* ============ 単語帳 ============ */
+function renderWordbook(){
+  $("#wb-count").textContent=S.words.length;
+  const wrap=$("#wb-list");
+  if(!S.words.length){
+    wrap.innerHTML='<div class="card"><div class="empty">まだ空です。<br>練習タブで字幕を表示し、単語やイディオムをタップすると<br>「その文での意味」つきでここに集まります。</div></div>';
+    return;
+  }
+  wrap.innerHTML=S.words.map((w,k)=>`
+    <div class="wb-card">
+      <div class="wb-head">
+        <span class="wb-term serif">${escapeHtml(w.term)}</span>
+        ${w.pos?`<span class="wb-pos">${escapeHtml(w.pos)}</span>`:""}
+        <span class="wb-type">${w.type==="idiom"?"イディオム":"単語"}</span>
+        <div class="wb-actions">
+          <button class="wb-ico" onclick="speak('${escapeHtml(w.term).replace(/'/g,"\\'")}',0.85)"><svg viewBox="0 0 24 24" fill="var(--gold)"><path d="M8 5v14l11-7z"/></svg></button>
+          <button class="wb-ico" onclick="deleteWord(${k})"><svg viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+        </div>
+      </div>
+      <div class="wb-gloss ${w.gloss?'':'empty'}">${w.gloss?escapeHtml(w.gloss):"意味は「まとめて取得」で表示されます"}</div>
+      ${w.en?`<div class="wb-ctx">${highlightTerm(w.en,w.term)}${w.ja?`<br><span style="opacity:.75">${escapeHtml(w.ja)}</span>`:""}</div>`:""}
+    </div>`).join("");
+}
+function highlightTerm(sentence, term){
+  const esc=escapeHtml(sentence);
+  try{ const re=new RegExp("("+term.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+")","ig"); return esc.replace(re,"<b>$1</b>"); }
+  catch(e){ return esc; }
+}
+function deleteWord(k){ S.words.splice(k,1); persist(); renderWordbook(); }
+
+async function glossWords(){
+  if(!S.words.length){ toast("単語帳が空です"); return; }
+  if(!S.apikey){ toast("設定でAPIキーを入れると意味を取得します"); go("settings"); return; }
+  toast("Geminiで文脈の意味を取得中…");
+  const targets=S.words.map((w,k)=>({i:k, term:w.term, sentence:w.en, type:w.type}));
+  const prompt=`次の各英単語/イディオムについて、与えられた文の文脈での日本語の意味を答えてください。辞書的な一般語義ではなく、その文でどう使われているかに即した意味にすること。簡潔に。
+必ず次のJSON配列のみを返す（前置き・マークダウン禁止）:
+[{"i":元のindex,"gloss":"その文脈での日本語の意味","pos":"品詞(名詞/動詞/形容詞/句動詞/イディオム 等)"}]
+対象: ${JSON.stringify(targets)}`;
+  try{
+    const arr=await gemini([{text:prompt}]);
+    (Array.isArray(arr)?arr:[]).forEach(o=>{ if(S.words[o.i]){ S.words[o.i].gloss=o.gloss||""; S.words[o.i].pos=o.pos||""; } });
+    persist(); renderWordbook(); toast("意味を更新しました");
+  }catch(e){ toast("取得失敗: "+e.message.slice(0,60)); }
+}
+
+async function analyzeWeak(){
+  const out=$("#weak-out");
+  if(!S.unclear.length && !S.words.length){ out.innerHTML='<div class="empty">分析するマークがまだありません。</div>'; return; }
+  if(!S.apikey){ out.innerHTML='<div class="eval-note" style="color:var(--gold)">APIキーを設定すると、傾向分析と類似フレーズ生成を実行します（設定タブ）。</div>'; return; }
+  out.innerHTML='<div class="score-wrap"><span class="spin"></span><span style="color:var(--muted);font-size:13px">分析中…</span></div>';
+  const sents=S.unclear.map(i=>EPISODE.sentences[i].en);
+  const prompt=`英語リスニングのコーチとして、学習者が「聞き取れなかった」文と「苦手な単語」を分析してください。
+聞き取れなかった文: ${JSON.stringify(sents)}
+苦手な単語: ${JSON.stringify(S.words)}
+これらに共通する音声的な難しさ(連結・脱落・弱形・同化・フラップ等)のパターンを見抜き、同じ特徴を含む新しい練習フレーズを作ってください。
+必ず次のJSONのみ返す:
+{"patterns":["日本語での傾向説明(具体例つき)",...最大3件],"drills":[{"en":"練習フレーズ","focus":"狙う音の特徴(日本語)"},...5件]}`;
+  try{
+    const j=await gemini([{text:prompt}]);
+    out.innerHTML=`
+      <div class="eyebrow">見つかった傾向</div>
+      <div class="chips">${(j.patterns||[]).map(p=>`<span class="chip warn">${escapeHtml(p)}</span>`).join("")}</div>
+      <div class="eyebrow" style="margin-top:14px">類似練習フレーズ</div>
+      ${(j.drills||[]).map(d=>`<div class="rev-item">
+        <button class="rev-play" onclick="speak('${escapeHtml(d.en).replace(/'/g,"\\'")}',0.9)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+        <div style="flex:1"><div class="rev-en serif">${escapeHtml(d.en)}</div><div class="rev-jp">${escapeHtml(d.focus)}</div></div>
+      </div>`).join("")}`;
+  }catch(e){ out.innerHTML=`<div class="eval-note" style="color:var(--rose)">分析に失敗: ${escapeHtml(e.message)}</div>`; }
+}
+
+/* ============ 設定 ============ */
+function saveSettings(){
+  S.apikey=$("#s-key").value.trim(); S.model=$("#s-model").value;
+  store.set("ym.key",S.apikey); store.set("ym.model",S.model);
+  toast(S.apikey?"保存しました":"キーを空で保存（サンプル採点になります）");
+}
+$("#s-src").addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b)return;
+  $$("#s-src button").forEach(x=>x.classList.remove("on")); b.classList.add("on"); S.srcMode=b.dataset.m; store.set("ym.src",S.srcMode); });
+
+/* ============ 初期化 ============ */
+function init(){
+  $("#s-key").value=S.apikey; $("#s-model").value=S.model;
+  $$("#s-src button").forEach(b=>b.classList.toggle("on", b.dataset.m===S.srcMode));
+  loadSent();
+  window.addEventListener("resize", ()=>{ const s=EPISODE.sentences[S.i]; drawWave($("#wave-model"),seedWave(s.en),getCSS("--gold"));
+    const r=S.myRec[S.i]; drawWave($("#wave-you"), r?r.wave:[], getCSS("--cyan")); });
+}
+/* ============ エピソード読み込み（パイプライン出力があれば） ============ */
+async function loadEpisodeList(){
+  try{
+    const res=await fetch("episodes/index.json",{cache:"no-store"});
+    if(!res.ok) return;
+    const man=await res.json();
+    const eps=man.episodes||[];
+    if(!eps.length) return;
+    // 通し聴きカードにピッカーを差し込む
+    const host=$("#ov-meta");
+    const sel=document.createElement("select");
+    sel.style.marginTop="12px";
+    sel.innerHTML=eps.map(e=>`<option value="${e.file}">${escapeHtml(e.show)}｜${escapeHtml(e.title)}</option>`).join("");
+    host.parentNode.insertBefore(sel,host.nextSibling);
+    sel.addEventListener("change",()=>swapEpisode(sel.value));
+    await swapEpisode(eps[0].file);
+  }catch(e){ /* オフライン/ローカルはサンプルのまま */ }
+}
+async function swapEpisode(file){
+  try{
+    const res=await fetch(file,{cache:"no-store"}); if(!res.ok) throw 0;
+    const ep=await res.json();
+    Object.assign(EPISODE,{ id:ep.id, show:ep.show, title:ep.title, audioUrl:ep.audioUrl||null, sentences:ep.sentences||[] });
+    if(EPISODE.audioUrl){ S.srcMode="url"; store.set("ym.src","url"); }
+    S.i=0; S.myRec={};
+    $("#ov-title").textContent=EPISODE.title;
+    $("#ov-meta").textContent=EPISODE.show+" · "+EPISODE.sentences.length+" sentences";
+    $$("#s-src button").forEach(b=>b.classList.toggle("on", b.dataset.m===S.srcMode));
+    loadSent(); toast("エピソードを読み込みました");
+  }catch(e){ toast("エピソード読み込みに失敗"); }
+}
+
+init();
+loadEpisodeList();
+window.speak=speak; window.jumpTo=jumpTo; window.deleteWord=deleteWord; window.glossWords=glossWords;
+</script>
+</body>
+</html>
