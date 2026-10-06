@@ -1,6 +1,13 @@
 {
   "episodes": [
     {
+      "id": "aee-aee-2698-in-a-while-or-for-a-while-trick-138b88",
+      "show": "All Ears English",
+      "title": "AEE 2698: In a While or For a While? Tricky English Grammar Explained",
+      "date": "2026-10-05",
+      "file": "episodes/aee-aee-2698-in-a-while-or-for-a-while-trick-138b88.json"
+    },
+    {
       "id": "aee-aee-do-aliens-exist-how-to-connect-over-24d3e3",
       "show": "All Ears English",
       "title": "AEE: Do Aliens Exist? How to Connect Over Extraterrestrial Life",
@@ -412,13 +419,6 @@
       "title": "AEE 2652: When to Call It- The American Narrative Toward Perseverance",
       "date": "2026-07-15",
       "file": "episodes/aee-aee-2652-when-to-call-it-the-american-na-7b0f16.json"
-    },
-    {
-      "id": "aee-aee-2651-find-out-how-to-use-find-in-thr-a4f5bd",
-      "show": "All Ears English",
-      "title": "AEE 2651: Find Out How to Use \"Find\" in Three Different Ways",
-      "date": "2026-07-14",
-      "file": "episodes/aee-aee-2651-find-out-how-to-use-find-in-thr-a4f5bd.json"
     }
   ]
 }
