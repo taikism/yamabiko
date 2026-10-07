@@ -1,6 +1,13 @@
 {
   "episodes": [
     {
+      "id": "aee-aee-2699-when-to-avoid-the-word-regurgit-bfbc86",
+      "show": "All Ears English",
+      "title": "AEE 2699: When to Avoid the Word Regurgitate in English",
+      "date": "2026-10-06",
+      "file": "episodes/aee-aee-2699-when-to-avoid-the-word-regurgit-bfbc86.json"
+    },
+    {
       "id": "aee-aee-2698-in-a-while-or-for-a-while-trick-138b88",
       "show": "All Ears English",
       "title": "AEE 2698: In a While or For a While? Tricky English Grammar Explained",
@@ -412,13 +419,6 @@
       "title": "AEE 2653: When Fishy and Cheesy Aren't About Food",
       "date": "2026-07-16",
       "file": "episodes/aee-aee-2653-when-fishy-and-cheesy-aren-t-ab-e0395a.json"
-    },
-    {
-      "id": "aee-aee-2652-when-to-call-it-the-american-na-7b0f16",
-      "show": "All Ears English",
-      "title": "AEE 2652: When to Call It- The American Narrative Toward Perseverance",
-      "date": "2026-07-15",
-      "file": "episodes/aee-aee-2652-when-to-call-it-the-american-na-7b0f16.json"
     }
   ]
 }
