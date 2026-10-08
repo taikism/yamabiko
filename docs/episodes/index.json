@@ -1,6 +1,13 @@
 {
   "episodes": [
     {
+      "id": "aee-aee-2700-what-would-you-do-for-a-million-7bcc63",
+      "show": "All Ears English",
+      "title": "AEE 2700: What Would You Do for a Million Dollars?",
+      "date": "2026-10-07",
+      "file": "episodes/aee-aee-2700-what-would-you-do-for-a-million-7bcc63.json"
+    },
+    {
       "id": "aee-aee-2699-when-to-avoid-the-word-regurgit-bfbc86",
       "show": "All Ears English",
       "title": "AEE 2699: When to Avoid the Word Regurgitate in English",
@@ -412,13 +419,6 @@
       "title": "AEE: Is Everything Peachy in Your Neck of the Woods?",
       "date": "2026-07-18",
       "file": "episodes/aee-aee-is-everything-peachy-in-your-neck-of-34ce7e.json"
-    },
-    {
-      "id": "aee-aee-2653-when-fishy-and-cheesy-aren-t-ab-e0395a",
-      "show": "All Ears English",
-      "title": "AEE 2653: When Fishy and Cheesy Aren't About Food",
-      "date": "2026-07-16",
-      "file": "episodes/aee-aee-2653-when-fishy-and-cheesy-aren-t-ab-e0395a.json"
     }
   ]
 }
