@@ -1,6 +1,13 @@
 {
   "episodes": [
     {
+      "id": "aee-aee-what-is-lookism-and-what-can-we-do-a-e730f9",
+      "show": "All Ears English",
+      "title": "AEE: What is Lookism and What Can We Do About It?",
+      "date": "2026-10-10",
+      "file": "episodes/aee-aee-what-is-lookism-and-what-can-we-do-a-e730f9.json"
+    },
+    {
       "id": "aee-aee-2701-us-neither-or-we-neither-would-e3d060",
       "show": "All Ears English",
       "title": "AEE 2701: Us Neither or We Neither? Would you Believe… Neither!",
@@ -412,13 +419,6 @@
       "title": "AEE 2655: Are You Slammed with Work? How to Talk About It",
       "date": "2026-07-21",
       "file": "episodes/aee-aee-2655-are-you-slammed-with-work-how-t-06d04b.json"
-    },
-    {
-      "id": "aee-aee-2654-do-you-love-it-or-hate-it-af7a5f",
-      "show": "All Ears English",
-      "title": "AEE 2654: Do You Love it or Hate it?",
-      "date": "2026-07-20",
-      "file": "episodes/aee-aee-2654-do-you-love-it-or-hate-it-af7a5f.json"
     }
   ]
 }
