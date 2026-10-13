@@ -1,6 +1,13 @@
 {
   "episodes": [
     {
+      "id": "aee-aee-2702-have-the-last-laugh-with-these-ec49ec",
+      "show": "All Ears English",
+      "title": "AEE 2702: Have the Last Laugh With These English Idioms",
+      "date": "2026-10-12",
+      "file": "episodes/aee-aee-2702-have-the-last-laugh-with-these-ec49ec.json"
+    },
+    {
       "id": "aee-aee-what-is-lookism-and-what-can-we-do-a-e730f9",
       "show": "All Ears English",
       "title": "AEE: What is Lookism and What Can We Do About It?",
@@ -412,13 +419,6 @@
       "title": "AEE 2656: Why Not Be More Spontaneous in English?",
       "date": "2026-07-22",
       "file": "episodes/aee-aee-2656-why-not-be-more-spontaneous-in-1aa3b8.json"
-    },
-    {
-      "id": "aee-aee-2655-are-you-slammed-with-work-how-t-06d04b",
-      "show": "All Ears English",
-      "title": "AEE 2655: Are You Slammed with Work? How to Talk About It",
-      "date": "2026-07-21",
-      "file": "episodes/aee-aee-2655-are-you-slammed-with-work-how-t-06d04b.json"
     }
   ]
 }
