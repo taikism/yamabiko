@@ -1,6 +1,13 @@
 {
   "episodes": [
     {
+      "id": "aee-aee-2704-are-you-giving-fluency-81b759",
+      "show": "All Ears English",
+      "title": "AEE 2704: Are You Giving Fluency?",
+      "date": "2026-10-14",
+      "file": "episodes/aee-aee-2704-are-you-giving-fluency-81b759.json"
+    },
+    {
       "id": "aee-aee-2703-a-more-interesting-way-to-say-y-849e4d",
       "show": "All Ears English",
       "title": "AEE 2703: A More Interesting Way to Say You're Interested",
@@ -412,13 +419,6 @@
       "title": "AEE: Did You See It or Watch It?",
       "date": "2026-07-25",
       "file": "episodes/aee-aee-did-you-see-it-or-watch-it-34e012.json"
-    },
-    {
-      "id": "aee-aee-2657-what-happened-when-you-were-abo-c5ef5f",
-      "show": "All Ears English",
-      "title": "AEE 2657: What Happened When You Were About to Leave?",
-      "date": "2026-07-23",
-      "file": "episodes/aee-aee-2657-what-happened-when-you-were-abo-c5ef5f.json"
     }
   ]
 }
