@@ -1,6 +1,13 @@
 {
   "episodes": [
     {
+      "id": "aee-aee-can-movies-make-you-more-excited-to-ea44a5",
+      "show": "All Ears English",
+      "title": "AEE: Can Movies Make You More Excited to Read?",
+      "date": "2026-10-17",
+      "file": "episodes/aee-aee-can-movies-make-you-more-excited-to-ea44a5.json"
+    },
+    {
       "id": "aee-aee-2705-could-have-should-have-or-must-f6b544",
       "show": "All Ears English",
       "title": "AEE 2705: Could Have, Should Have or Must Have?",
@@ -412,13 +419,6 @@
       "title": "AEE 2659: Don’t Be Thrown Off By This Vocabulary",
       "date": "2026-07-28",
       "file": "episodes/aee-aee-2659-don-t-be-thrown-off-by-this-voc-9dad02.json"
-    },
-    {
-      "id": "aee-aee-2658-english-grammar-that-will-make-2e4da5",
-      "show": "All Ears English",
-      "title": "AEE 2658: English Grammar That Will Make Your Day",
-      "date": "2026-07-27",
-      "file": "episodes/aee-aee-2658-english-grammar-that-will-make-2e4da5.json"
     }
   ]
 }
