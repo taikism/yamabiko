@@ -1,6 +1,13 @@
 {
   "episodes": [
     {
+      "id": "aee-aee-2706-when-to-use-that-in-english-e30cc0",
+      "show": "All Ears English",
+      "title": "AEE 2706: When to Use \"That\" in English",
+      "date": "2026-10-19",
+      "file": "episodes/aee-aee-2706-when-to-use-that-in-english-e30cc0.json"
+    },
+    {
       "id": "aee-aee-can-movies-make-you-more-excited-to-ea44a5",
       "show": "All Ears English",
       "title": "AEE: Can Movies Make You More Excited to Read?",
@@ -412,13 +419,6 @@
       "title": "AEE 2660: Stop Dropping Names! Connect Your Listeners to the Story",
       "date": "2026-07-29",
       "file": "episodes/aee-aee-2660-stop-dropping-names-connect-you-b308d9.json"
-    },
-    {
-      "id": "aee-aee-2659-don-t-be-thrown-off-by-this-voc-9dad02",
-      "show": "All Ears English",
-      "title": "AEE 2659: Don’t Be Thrown Off By This Vocabulary",
-      "date": "2026-07-28",
-      "file": "episodes/aee-aee-2659-don-t-be-thrown-off-by-this-voc-9dad02.json"
     }
   ]
 }
