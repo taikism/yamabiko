@@ -1,6 +1,13 @@
 {
   "episodes": [
     {
+      "id": "aee-aee-2708-honestly-you-ll-be-happy-about-4b101a",
+      "show": "All Ears English",
+      "title": "AEE 2708: Honestly, You’ll Be Happy About These Pronunciation Tips",
+      "date": "2026-10-21",
+      "file": "episodes/aee-aee-2708-honestly-you-ll-be-happy-about-4b101a.json"
+    },
+    {
       "id": "aee-aee-2707-worried-nervous-or-anxious-what-187c9e",
       "show": "All Ears English",
       "title": "AEE 2707: Worried, Nervous, or Anxious? What’s the Difference?",
@@ -412,13 +419,6 @@
       "title": "AEE: You Are Actually Going to Use This Vocabulary!",
       "date": "2026-08-01",
       "file": "episodes/aee-aee-you-are-actually-going-to-use-this-v-71d868.json"
-    },
-    {
-      "id": "aee-aee-2661-splash-into-summer-part-1-are-y-a6b000",
-      "show": "All Ears English",
-      "title": "AEE 2661: Splash Into Summer Part 1: Are You a Beach Bum?",
-      "date": "2026-07-30",
-      "file": "episodes/aee-aee-2661-splash-into-summer-part-1-are-y-a6b000.json"
     }
   ]
 }
