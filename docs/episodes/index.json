@@ -1,6 +1,13 @@
 {
   "episodes": [
     {
+      "id": "aee-aee-2709-when-ugly-doesn-t-mean-what-you-a5f07e",
+      "show": "All Ears English",
+      "title": "AEE 2709: When Ugly Doesn’t Mean What You Think it Means",
+      "date": "2026-10-22",
+      "file": "episodes/aee-aee-2709-when-ugly-doesn-t-mean-what-you-a5f07e.json"
+    },
+    {
       "id": "aee-aee-2708-honestly-you-ll-be-happy-about-4b101a",
       "show": "All Ears English",
       "title": "AEE 2708: Honestly, You’ll Be Happy About These Pronunciation Tips",
@@ -412,13 +419,6 @@
       "title": "AEE 2662: When You Know, You Know! How to Express Your Intuition in English",
       "date": "2026-08-03",
       "file": "episodes/aee-aee-2662-when-you-know-you-know-how-to-e-65855e.json"
-    },
-    {
-      "id": "aee-aee-you-are-actually-going-to-use-this-v-71d868",
-      "show": "All Ears English",
-      "title": "AEE: You Are Actually Going to Use This Vocabulary!",
-      "date": "2026-08-01",
-      "file": "episodes/aee-aee-you-are-actually-going-to-use-this-v-71d868.json"
     }
   ]
 }
