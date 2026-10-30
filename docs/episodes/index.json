@@ -1,6 +1,13 @@
 {
   "episodes": [
     {
+      "id": "aee-aee-2713-take-a-crack-at-these-english-p-c07ff2",
+      "show": "All Ears English",
+      "title": "AEE 2713: Take a Crack at These English Phrases",
+      "date": "2026-10-29",
+      "file": "episodes/aee-aee-2713-take-a-crack-at-these-english-p-c07ff2.json"
+    },
+    {
       "id": "aee-aee-2712-confused-by-english-vocabulary-7d0f6d",
       "show": "All Ears English",
       "title": "AEE 2712: Confused By English Vocabulary? What Now?",
@@ -412,13 +419,6 @@
       "title": "AEE: Four American English Pronunciation Tips",
       "date": "2026-08-08",
       "file": "episodes/aee-aee-four-american-english-pronunciation-ce87da.json"
-    },
-    {
-      "id": "aee-aee-feeling-stressed-4-ways-to-express-i-827c83",
-      "show": "All Ears English",
-      "title": "AEE: Feeling Stressed? 4 Ways to Express it in English",
-      "date": "2026-08-07",
-      "file": "episodes/aee-aee-feeling-stressed-4-ways-to-express-i-827c83.json"
     }
   ]
 }
