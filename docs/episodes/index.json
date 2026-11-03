@@ -1,6 +1,13 @@
 {
   "episodes": [
     {
+      "id": "aee-aee-2714-have-you-learned-english-from-a-019f6a",
+      "show": "All Ears English",
+      "title": "AEE 2714: Have You Learned English From a Beloved Teacher?",
+      "date": "2026-11-02",
+      "file": "episodes/aee-aee-2714-have-you-learned-english-from-a-019f6a.json"
+    },
+    {
       "id": "aee-aee-are-you-making-this-common-native-sp-c92450",
       "show": "All Ears English",
       "title": "AEE: Are You Making This Common Native Speaker Error?",
@@ -412,13 +419,6 @@
       "title": "AEE 2667: Is Your English All Sunshine and Rainbows?",
       "date": "2026-08-11",
       "file": "episodes/aee-aee-2667-is-your-english-all-sunshine-an-406a81.json"
-    },
-    {
-      "id": "aee-aee-2666-after-this-amazing-episode-you-f24907",
-      "show": "All Ears English",
-      "title": "AEE 2666: After This Amazing Episode, You Owe Us One!",
-      "date": "2026-08-10",
-      "file": "episodes/aee-aee-2666-after-this-amazing-episode-you-f24907.json"
     }
   ]
 }
