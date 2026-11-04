@@ -1,6 +1,13 @@
 {
   "episodes": [
     {
+      "id": "aee-aee-2715-giving-up-on-english-hang-on-no-e31e09",
+      "show": "All Ears English",
+      "title": "AEE 2715: Giving Up on English? Hang on Now!",
+      "date": "2026-11-03",
+      "file": "episodes/aee-aee-2715-giving-up-on-english-hang-on-no-e31e09.json"
+    },
+    {
       "id": "aee-aee-2714-have-you-learned-english-from-a-019f6a",
       "show": "All Ears English",
       "title": "AEE 2714: Have You Learned English From a Beloved Teacher?",
@@ -412,13 +419,6 @@
       "title": "AEE 2668: Do You Ever Question Your Questions?",
       "date": "2026-08-12",
       "file": "episodes/aee-aee-2668-do-you-ever-question-your-quest-b953f2.json"
-    },
-    {
-      "id": "aee-aee-2667-is-your-english-all-sunshine-an-406a81",
-      "show": "All Ears English",
-      "title": "AEE 2667: Is Your English All Sunshine and Rainbows?",
-      "date": "2026-08-11",
-      "file": "episodes/aee-aee-2667-is-your-english-all-sunshine-an-406a81.json"
     }
   ]
 }
