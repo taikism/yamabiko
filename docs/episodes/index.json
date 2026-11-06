@@ -1,6 +1,13 @@
 {
   "episodes": [
     {
+      "id": "aee-aee-2717-are-these-english-phrases-conde-a80b72",
+      "show": "All Ears English",
+      "title": "AEE 2717: Are These English Phrases Condescending?",
+      "date": "2026-11-05",
+      "file": "episodes/aee-aee-2717-are-these-english-phrases-conde-a80b72.json"
+    },
+    {
       "id": "aee-aee-2716-this-is-us-breaking-down-englis-4a1fbc",
       "show": "All Ears English",
       "title": "AEE 2716: This is Us Breaking Down English Grammar",
@@ -412,13 +419,6 @@
       "title": "AEE: Splash Into Summer Part 3: 4 Games for any Road Trip",
       "date": "2026-08-15",
       "file": "episodes/aee-aee-splash-into-summer-part-3-4-games-fo-a8832b.json"
-    },
-    {
-      "id": "aee-aee-2669-what-s-the-difference-between-o-05ac0d",
-      "show": "All Ears English",
-      "title": "AEE 2669: What's the Difference Between Older and Elder in English?",
-      "date": "2026-08-13",
-      "file": "episodes/aee-aee-2669-what-s-the-difference-between-o-05ac0d.json"
     }
   ]
 }
