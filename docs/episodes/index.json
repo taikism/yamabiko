@@ -1,6 +1,13 @@
 {
   "episodes": [
     {
+      "id": "aee-aee-2719-how-tanning-culture-is-changing-d4f5f6",
+      "show": "All Ears English",
+      "title": "AEE 2719: How Tanning Culture is Changing in the U.S.",
+      "date": "2026-11-10",
+      "file": "episodes/aee-aee-2719-how-tanning-culture-is-changing-d4f5f6.json"
+    },
+    {
       "id": "aee-aee-2718-dicey-english-vocabulary-for-pr-0b979a",
       "show": "All Ears English",
       "title": "AEE 2718: Dicey English Vocabulary for Precarious Situations",
@@ -412,13 +419,6 @@
       "title": "AEE 2672: Looking for a Conversation Topic? Look No Further Than this Tech Tool",
       "date": "2026-08-19",
       "file": "episodes/aee-aee-2672-looking-for-a-conversation-topi-e2c4b8.json"
-    },
-    {
-      "id": "aee-aee-2671-splash-into-summer-part-4-how-s-dce622",
-      "show": "All Ears English",
-      "title": "AEE 2671: Splash Into Summer Part 4: How’s Your Summer Going?",
-      "date": "2026-08-18",
-      "file": "episodes/aee-aee-2671-splash-into-summer-part-4-how-s-dce622.json"
     }
   ]
 }
