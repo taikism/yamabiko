@@ -1,6 +1,13 @@
 {
   "episodes": [
     {
+      "id": "aee-aee-2720-are-you-spiteful-how-to-discuss-898921",
+      "show": "All Ears English",
+      "title": "AEE 2720: Are You Spiteful? How to Discuss Revenge in English",
+      "date": "2026-11-11",
+      "file": "episodes/aee-aee-2720-are-you-spiteful-how-to-discuss-898921.json"
+    },
+    {
       "id": "aee-aee-2719-how-tanning-culture-is-changing-d4f5f6",
       "show": "All Ears English",
       "title": "AEE 2719: How Tanning Culture is Changing in the U.S.",
@@ -412,13 +419,6 @@
       "title": "AEE 2673: Conversation Coaching Part 1: How Long Should Small Talk Be?",
       "date": "2026-08-20",
       "file": "episodes/aee-aee-2673-conversation-coaching-part-1-ho-f72dcf.json"
-    },
-    {
-      "id": "aee-aee-2672-looking-for-a-conversation-topi-e2c4b8",
-      "show": "All Ears English",
-      "title": "AEE 2672: Looking for a Conversation Topic? Look No Further Than this Tech Tool",
-      "date": "2026-08-19",
-      "file": "episodes/aee-aee-2672-looking-for-a-conversation-topi-e2c4b8.json"
     }
   ]
 }
