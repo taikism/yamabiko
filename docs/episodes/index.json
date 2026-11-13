@@ -1,6 +1,13 @@
 {
   "episodes": [
     {
+      "id": "aee-aee-2721-fancy-schmancy-phrases-with-ben-4342f1",
+      "show": "All Ears English",
+      "title": "AEE 2721: Fancy Schmancy Phrases with Ben Grossblatt from Everybody ESL",
+      "date": "2026-11-12",
+      "file": "episodes/aee-aee-2721-fancy-schmancy-phrases-with-ben-4342f1.json"
+    },
+    {
       "id": "aee-aee-2720-are-you-spiteful-how-to-discuss-898921",
       "show": "All Ears English",
       "title": "AEE 2720: Are You Spiteful? How to Discuss Revenge in English",
@@ -412,13 +419,6 @@
       "title": "AEE: Are You Trying or Practicing?",
       "date": "2026-08-22",
       "file": "episodes/aee-aee-are-you-trying-or-practicing-80ab60.json"
-    },
-    {
-      "id": "aee-aee-2673-conversation-coaching-part-1-ho-f72dcf",
-      "show": "All Ears English",
-      "title": "AEE 2673: Conversation Coaching Part 1: How Long Should Small Talk Be?",
-      "date": "2026-08-20",
-      "file": "episodes/aee-aee-2673-conversation-coaching-part-1-ho-f72dcf.json"
     }
   ]
 }
