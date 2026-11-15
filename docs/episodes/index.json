@@ -1,6 +1,13 @@
 {
   "episodes": [
     {
+      "id": "aee-aee-once-you-get-it-you-got-it-65764c",
+      "show": "All Ears English",
+      "title": "AEE: Once You Get It, You Got It!",
+      "date": "2026-11-14",
+      "file": "episodes/aee-aee-once-you-get-it-you-got-it-65764c.json"
+    },
+    {
       "id": "aee-aee-2721-fancy-schmancy-phrases-with-ben-4342f1",
       "show": "All Ears English",
       "title": "AEE 2721: Fancy Schmancy Phrases with Ben Grossblatt from Everybody ESL",
@@ -412,13 +419,6 @@
       "title": "AEE 2674: It's All Ears English O'clock",
       "date": "2026-08-24",
       "file": "episodes/aee-aee-2674-it-s-all-ears-english-o-clock-7b822d.json"
-    },
-    {
-      "id": "aee-aee-are-you-trying-or-practicing-80ab60",
-      "show": "All Ears English",
-      "title": "AEE: Are You Trying or Practicing?",
-      "date": "2026-08-22",
-      "file": "episodes/aee-aee-are-you-trying-or-practicing-80ab60.json"
     }
   ]
 }
