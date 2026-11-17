@@ -1,6 +1,13 @@
 {
   "episodes": [
     {
+      "id": "aee-aee-2722-we-wager-you-ll-love-this-episo-2e3511",
+      "show": "All Ears English",
+      "title": "AEE 2722: We Wager You’ll Love This Episode!",
+      "date": "2026-11-16",
+      "file": "episodes/aee-aee-2722-we-wager-you-ll-love-this-episo-2e3511.json"
+    },
+    {
       "id": "aee-aee-once-you-get-it-you-got-it-65764c",
       "show": "All Ears English",
       "title": "AEE: Once You Get It, You Got It!",
@@ -412,13 +419,6 @@
       "title": "AEE 2675: Smoked, Crushed, or Swept? How to Talk About Clear Victories",
       "date": "2026-08-25",
       "file": "episodes/aee-aee-2675-smoked-crushed-or-swept-how-to-117401.json"
-    },
-    {
-      "id": "aee-aee-2674-it-s-all-ears-english-o-clock-7b822d",
-      "show": "All Ears English",
-      "title": "AEE 2674: It's All Ears English O'clock",
-      "date": "2026-08-24",
-      "file": "episodes/aee-aee-2674-it-s-all-ears-english-o-clock-7b822d.json"
     }
   ]
 }
