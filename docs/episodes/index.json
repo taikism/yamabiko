@@ -1,6 +1,13 @@
 {
   "episodes": [
     {
+      "id": "aee-aee-2724-don-t-crash-out-over-english-sl-413c04",
+      "show": "All Ears English",
+      "title": "AEE 2724: Don’t Crash Out Over English Slang",
+      "date": "2026-11-18",
+      "file": "episodes/aee-aee-2724-don-t-crash-out-over-english-sl-413c04.json"
+    },
+    {
       "id": "aee-aee-2723-puzzling-prepositions-part-1-on-092f76",
       "show": "All Ears English",
       "title": "AEE 2723: Puzzling Prepositions Part 1: On or With?",
@@ -412,13 +419,6 @@
       "title": "AEE 2677: Conversation Coaching Part 2: Keep the Conversation Going",
       "date": "2026-08-27",
       "file": "episodes/aee-aee-2677-conversation-coaching-part-2-ke-0d3ae5.json"
-    },
-    {
-      "id": "aee-aee-2676-yours-or-mine-using-possessive-c1a830",
-      "show": "All Ears English",
-      "title": "AEE 2676: Yours or Mine? Using Possessive Words to Talk About Homes",
-      "date": "2026-08-26",
-      "file": "episodes/aee-aee-2676-yours-or-mine-using-possessive-c1a830.json"
     }
   ]
 }
