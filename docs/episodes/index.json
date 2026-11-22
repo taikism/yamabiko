@@ -1,6 +1,13 @@
 {
   "episodes": [
     {
+      "id": "aee-aee-eating-in-an-american-restaurant-how-325c56",
+      "show": "All Ears English",
+      "title": "AEE: Eating in an American Restaurant? How Long Can You Stay?",
+      "date": "2026-11-21",
+      "file": "episodes/aee-aee-eating-in-an-american-restaurant-how-325c56.json"
+    },
+    {
       "id": "aee-aee-2725-kiss-your-sarcasm-struggles-goo-a1651f",
       "show": "All Ears English",
       "title": "AEE 2725: Kiss Your Sarcasm Struggles Goodbye!",
@@ -412,13 +419,6 @@
       "title": "AEE 2678: Why and How to Connect Over Sleep in English",
       "date": "2026-08-31",
       "file": "episodes/aee-aee-2678-why-and-how-to-connect-over-sle-634999.json"
-    },
-    {
-      "id": "aee-aee-vocabulary-shortcuts-with-3-common-e-5d29bd",
-      "show": "All Ears English",
-      "title": "AEE: Vocabulary Shortcuts with 3 Common English Words",
-      "date": "2026-08-29",
-      "file": "episodes/aee-aee-vocabulary-shortcuts-with-3-common-e-5d29bd.json"
     }
   ]
 }
