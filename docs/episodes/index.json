@@ -1,6 +1,13 @@
 {
   "episodes": [
     {
+      "id": "aee-aee-2726-what-to-say-when-you-didn-t-get-ed6b1c",
+      "show": "All Ears English",
+      "title": "AEE 2726: What to Say When You Didn’t Get the Joke",
+      "date": "2026-11-23",
+      "file": "episodes/aee-aee-2726-what-to-say-when-you-didn-t-get-ed6b1c.json"
+    },
+    {
       "id": "aee-aee-eating-in-an-american-restaurant-how-325c56",
       "show": "All Ears English",
       "title": "AEE: Eating in an American Restaurant? How Long Can You Stay?",
@@ -412,13 +419,6 @@
       "title": "AEE 2679: Surprising Ways We Use \"Practice\" in English",
       "date": "2026-09-01",
       "file": "episodes/aee-aee-2679-surprising-ways-we-use-practice-c926a7.json"
-    },
-    {
-      "id": "aee-aee-2678-why-and-how-to-connect-over-sle-634999",
-      "show": "All Ears English",
-      "title": "AEE 2678: Why and How to Connect Over Sleep in English",
-      "date": "2026-08-31",
-      "file": "episodes/aee-aee-2678-why-and-how-to-connect-over-sle-634999.json"
     }
   ]
 }
