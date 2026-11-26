@@ -1,6 +1,13 @@
 {
   "episodes": [
     {
+      "id": "aee-aee-2728-speak-english-naturally-out-of-89b85b",
+      "show": "All Ears English",
+      "title": "AEE 2728: Speak English Naturally Out of Habit",
+      "date": "2026-11-25",
+      "file": "episodes/aee-aee-2728-speak-english-naturally-out-of-89b85b.json"
+    },
+    {
       "id": "aee-aee-2727-you-too-how-to-instantly-connec-723cd6",
       "show": "All Ears English",
       "title": "AEE 2727: You Too! How to Instantly Connect When Someone Says Goodbye",
@@ -412,13 +419,6 @@
       "title": "AEE 2681: Self Awareness Is Key! Acknowledge Your Excitement in English",
       "date": "2026-09-03",
       "file": "episodes/aee-aee-2681-self-awareness-is-key-acknowled-bd6893.json"
-    },
-    {
-      "id": "aee-aee-2680-conversation-coaching-part-3-ne-48a4c0",
-      "show": "All Ears English",
-      "title": "AEE 2680: Conversation Coaching Part 3: Need to Pivot?",
-      "date": "2026-09-02",
-      "file": "episodes/aee-aee-2680-conversation-coaching-part-3-ne-48a4c0.json"
     }
   ]
 }
