@@ -1,6 +1,13 @@
 {
   "episodes": [
     {
+      "id": "aee-aee-2729-are-you-still-wondering-how-to-65a1ea",
+      "show": "All Ears English",
+      "title": "AEE 2729: Are You Still Wondering How to Use Yet and Already?",
+      "date": "2026-11-26",
+      "file": "episodes/aee-aee-2729-are-you-still-wondering-how-to-65a1ea.json"
+    },
+    {
       "id": "aee-aee-2728-speak-english-naturally-out-of-89b85b",
       "show": "All Ears English",
       "title": "AEE 2728: Speak English Naturally Out of Habit",
@@ -412,13 +419,6 @@
       "title": "AEE: Should You Be Gassing People Up?",
       "date": "2026-09-05",
       "file": "episodes/aee-aee-should-you-be-gassing-people-up-9c06dc.json"
-    },
-    {
-      "id": "aee-aee-2681-self-awareness-is-key-acknowled-bd6893",
-      "show": "All Ears English",
-      "title": "AEE 2681: Self Awareness Is Key! Acknowledge Your Excitement in English",
-      "date": "2026-09-03",
-      "file": "episodes/aee-aee-2681-self-awareness-is-key-acknowled-bd6893.json"
     }
   ]
 }
